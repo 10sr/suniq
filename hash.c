@@ -120,3 +120,20 @@ int Hash_PutData(struct Hash *hash, char *key, void *data)
     }
     return 1;
 }
+
+void Hash_ForEach(struct Hash *hash,
+                  void (*func)(char *key, void *data, void *arg),
+                  void *arg)
+{
+    int i;
+    struct _HashData *current;
+
+    for (i = 0; i < HASH_LEN; i++) {
+        current = hash->a[i];
+        while (current) {
+            (*func)(current->key, current->data, arg);
+            current = current->next;
+        }
+    }
+    return;
+}
