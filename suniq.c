@@ -1,5 +1,7 @@
 #include<stdio.h>
 
+#include"counter.h"
+
 char *ReadOneLine(int fd_input, char delim)
 {
     /* Read one segment from fd_input. Input is separated by delim char.

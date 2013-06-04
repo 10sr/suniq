@@ -9,7 +9,7 @@ default : all
 
 test : $(TESTS)
 
-test_counter :
+test_counter : counter.o hash.o test_counter.o
 
 test_hash : hash.o test_hash.o
 
