@@ -6,12 +6,14 @@
 void PrintData(char *key, void *data, void *arg)
 {
     printf("%s : %s\n", key, (char *)data);
+    (*(int *)arg)++;
     return;
 }
 
 int test_hash(void)
 {
     struct Hash *h;
+    int len;
     h = Hash_Create();
     if (! h) {
         fprintf(stderr, "%s: Cannot allocate memory", "test_hash");
@@ -24,7 +26,9 @@ int test_hash(void)
     printf("%s\n", (char *)Hash_GetData(h, "abcde"));
     printf("%s\n", (char *)Hash_GetData(h, "aaaaa"));
 
-    Hash_ForEach(h, PrintData, NULL);
+    len = 0;
+    Hash_ForEach(h, PrintData, &len);
+    printf("Len : %d\n", len);
     return 0;
 }
 
