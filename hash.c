@@ -1,7 +1,7 @@
-#include"hash.h"
-
 #include<string.h>
 #include<stdlib.h>
+
+#include"hash.h"
 
 /* http://www.tokumaru.org/techterm/hash.html */
 

@@ -1,0 +1,4 @@
+suniq
+=====
+
+uniq without sort.
