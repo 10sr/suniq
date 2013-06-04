@@ -1,2 +1,4 @@
 *.o
 test_hash
+test_counter
+suniq
