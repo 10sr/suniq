@@ -22,7 +22,7 @@ struct Hash {
 /* Create new hash. Return NULL if fails. */
 struct Hash *Hash_Create(void);
 
-void Hash_Destroy(struct Hash *h);
+void Hash_Destroy(struct Hash *hash);
 
 /* Get data of s. If none return NULL.
  * This hash cannot distinguish "no key" and "null value".

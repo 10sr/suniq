@@ -40,6 +40,33 @@ struct Hash *Hash_Create(void)
     return new;
 }
 
+void _HashData_Destroy(struct _HashData *d)
+{
+    free(d->key);
+    free(d);
+    return;
+}
+
+void Hash_Destroy(struct Hash *hash)
+{
+    int i;
+    struct _HashData *current;
+    struct _HashData *next;
+
+    for (i = 0; i < HASH_LEN; i++) {
+        current = hash->a[i];
+        while (current) {
+            next = current->next;
+            _HashData_Destroy(current);
+            current = next;
+        }
+    }
+
+    free(hash->a);
+    free(hash);
+    return;
+}
+
 void *Hash_GetData(struct Hash *hash, char *key)
 {
     int num;

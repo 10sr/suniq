@@ -29,6 +29,8 @@ int test_hash(void)
     len = 0;
     Hash_ForEach(h, PrintData, &len);
     printf("Len : %d\n", len);
+
+    Hash_Destroy(h);
     return 0;
 }
 
