@@ -1,5 +1,23 @@
 #include"hash.h"
 
+#include<string.h>
+#include<stdlib.h>
+
+/* http://www.tokumaru.org/techterm/hash.html */
+
+long _hash(char *s)
+{
+    int i;
+    int long h;
+    int L = strlen(s);
+
+    h = 0;
+    for (i = 0; i < L; i++) {
+        h = h * 37 + s[i];
+    }
+    return labs(h);
+}
+
 struct Hash *Hash_Create(void)
 {
     struct Hash *new;
@@ -27,7 +45,7 @@ void *Hash_GetData(struct Hash *hash, char *key)
     int num;
     struct _HashData *d;
 
-    num = _hash(key);
+    num = _hash(key) % HASH_LEN;
 
     d = hash->a[num];
 
@@ -41,7 +59,64 @@ void *Hash_GetData(struct Hash *hash, char *key)
     return NULL;
 }
 
-void Hash_PutData(struct Hash *hash, char *key, void *data)
+struct _HashData *_HashData_Create(char *key, void *data)
 {
-    return;
+    /* Duplicate key and make _HashData. Return NULL when fails. */
+    struct _HashData *new;
+    new = malloc(sizeof(struct _HashData));
+    if (new) {
+        new->key = strdup(key);
+        if ( new->key ) {
+            new->data = data;
+            new->next = NULL;
+            return new;
+        } else {
+            free(new);
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+}
+
+int Hash_PutData(struct Hash *hash, char *key, void *data)
+{
+    int num;
+
+    num = _hash(key) % HASH_LEN;
+
+    if (hash->a[num]) {
+        struct _HashData *current;
+        current = hash->a[num];
+        while (1) {
+            if (strcmp(key, current->key) == 0) {
+                /* key already exists */
+                current->data = data;
+                return 0;
+            } else if (current->next) {
+                /* another key exists in num */
+                current = current->next;
+            } else {
+                /* key not exists yet */
+                struct _HashData *new;
+                new = _HashData_Create(key, data);
+                if (new) {
+                    current->next = new;
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        }
+    } else {
+        struct _HashData *d;
+        d = _HashData_Create(key, data);
+        if (d) {
+            hash->a[num] = d;
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    return 1;
 }

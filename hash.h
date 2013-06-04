@@ -1,9 +1,11 @@
+/* hash.h --- Hash for strings. */
+
 #ifndef _HASH_H_
 #define _HASH_H_
 
-/* Hash for strings. */
+#include<limits.h>
 
-#define HASH_LEN 1024
+#define HASH_LEN 100000
 
 struct _HashData {
     char *key;
@@ -29,7 +31,8 @@ void *Hash_GetData(struct Hash *hash, char *key);
 /* Put data of s. Pointer data is used directly so you must care about lifetime
  * of referenced space.
  * Keys are duplicated.
+ * Return 0 if suceeded, non-zero otherwise.
  */
-void Hash_PutData(struct Hash *hash, char *key, void *data);
+int Hash_PutData(struct Hash *hash, char *key, void *data);
 
 #endif
