@@ -48,6 +48,7 @@ int suniq(FILE *fp_input, char delim, int print_num)
         /* printf("%s\n", line); */
         r = ReadOneLine(fp_input, delim, line, BUF_LEN);
     }
+    Counter_AddStr(c, line);
 
     Counter_Print(c, stdout, print_num);
     return 0;
