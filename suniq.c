@@ -5,7 +5,7 @@
 
 const int BUF_LEN = 10000;
 
-int ReadOneLine(FILE *fp_input, char delim, char *out, int len)
+static int _ReadOneLine(FILE *fp_input, char delim, char *out, int len)
 {
     /* Read one segment from fd_input. Input is separated by delim char.
      * At the end of input returns 1, otherwise return 0.
@@ -29,7 +29,7 @@ int ReadOneLine(FILE *fp_input, char delim, char *out, int len)
     return 1;
 }
 
-int suniq(FILE *fp_input, char delim, int print_num)
+static int suniq(FILE *fp_input, char delim, int print_num)
 {
     char line[BUF_LEN];
     int r;
@@ -41,12 +41,12 @@ int suniq(FILE *fp_input, char delim, int print_num)
         exit(1);
     }
 
-    r = ReadOneLine(fp_input, delim, line, BUF_LEN);
+    r = _ReadOneLine(fp_input, delim, line, BUF_LEN);
 
     while (r == 0) {
         Counter_AddStr(c, line);
         /* printf("%s\n", line); */
-        r = ReadOneLine(fp_input, delim, line, BUF_LEN);
+        r = _ReadOneLine(fp_input, delim, line, BUF_LEN);
     }
     Counter_AddStr(c, line);
 

@@ -39,7 +39,7 @@ void Counter_AddStr(struct Counter *c, char *s)
     return;
 }
 
-void _PrintLine(char *key, void *data, void *_arg)
+static void _PrintLine(char *key, void *data, void *_arg)
 {
     intptr_t *arg;
     int print_num;

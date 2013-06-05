@@ -3,9 +3,13 @@
 
 #include"hash.h"
 
+/* #include<limits.h> */
+/* static int _HASH_ARRAY_LEN INT_MAX; */
+static int _HASH_ARRAY_LEN = 100000;
+
 /* http://www.tokumaru.org/techterm/hash.html */
 
-long _hash(char *s)
+static long _Hash_Hash(char *s)
 {
     int i;
     int long h;
@@ -29,7 +33,7 @@ struct Hash *Hash_Create(void)
 
     new->len = 0;
 
-    new->a = malloc(sizeof(struct Hash *) * HASH_LEN);
+    new->a = malloc(sizeof(struct Hash *) * _HASH_ARRAY_LEN);
     if (! new->a) {
         free(new);
         return NULL;
@@ -53,7 +57,7 @@ void Hash_Destroy(struct Hash *hash)
     struct _HashData *current;
     struct _HashData *next;
 
-    for (i = 0; i < HASH_LEN; i++) {
+    for (i = 0; i < _HASH_ARRAY_LEN; i++) {
         current = hash->a[i];
         while (current) {
             next = current->next;
@@ -72,7 +76,7 @@ void *Hash_GetData(struct Hash *hash, char *key)
     int num;
     struct _HashData *d;
 
-    num = _hash(key) % HASH_LEN;
+    num = _Hash_Hash(key) % _HASH_ARRAY_LEN;
 
     d = hash->a[num];
 
@@ -110,7 +114,7 @@ int Hash_PutData(struct Hash *hash, char *key, void *data)
 {
     int num;
 
-    num = _hash(key) % HASH_LEN;
+    num = _Hash_Hash(key) % _HASH_ARRAY_LEN;
 
     if (hash->a[num]) {
         struct _HashData *current;
@@ -155,7 +159,7 @@ void Hash_ForEach(struct Hash *hash,
     int i;
     struct _HashData *current;
 
-    for (i = 0; i < HASH_LEN; i++) {
+    for (i = 0; i < _HASH_ARRAY_LEN; i++) {
         current = hash->a[i];
         while (current) {
             (*func)(current->key, current->data, arg);

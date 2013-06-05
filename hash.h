@@ -3,10 +3,6 @@
 #ifndef _HASH_H_
 #define _HASH_H_
 
-#include<limits.h>
-
-#define HASH_LEN 100000
-
 struct _HashData {
     char *key;
     void *data;
