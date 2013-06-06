@@ -90,14 +90,26 @@ void *Hash_GetData(struct Hash *hash, char *key)
     return NULL;
 }
 
+static char *_Hash_StrDup(char *s)
+{
+    char *new;
+    new = malloc(strlen(s) + 1);
+    if (new) {
+        strcpy(new, s);         /* s -> new */
+        return new;
+    } else {
+        return NULL;
+    }
+}
+
 struct _HashData *_HashData_Create(char *key, void *data)
 {
     /* Duplicate key and make _HashData. Return NULL when fails. */
     struct _HashData *new;
     new = malloc(sizeof(struct _HashData));
     if (new) {
-        new->key = strdup(key);
-        if ( new->key ) {
+        new->key = _Hash_StrDup(key);
+        if (new->key) {
             new->data = data;
             new->next = NULL;
             return new;
