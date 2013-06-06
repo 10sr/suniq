@@ -51,10 +51,22 @@ static int suniq(FILE *fp_input, char delim, int print_num)
     Counter_AddStr(c, line);
 
     Counter_Print(c, stdout, print_num);
+
+    Counter_Destroy(c);
+    fclose(stdin);
     return 0;
 }
 
 int main(int argc, char** argv)
 {
+    char *infile = "-";
+    /* char *outfile = "-"; */
+
+    if (argc >= 2) {
+        /* printf("argc: %d, input: %s\n", argc, argv[1]); */
+        infile = argv[1];
+        freopen(infile, "r", stdin);
+    }
+
     return suniq(stdin, '\n', 1);
 }
