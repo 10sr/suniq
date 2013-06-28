@@ -3,14 +3,11 @@
 
 #include"hash.h"
 
-/* #include<limits.h> */
-/* static int _HASH_ARRAY_LEN INT_MAX; */
-static int _HASH_ARRAY_LEN = 100000;
-
-/* http://www.tokumaru.org/techterm/hash.html */
+static const int _HASH_LEN_DEFAULT = 100000;
 
 static long _Hash_Hash(char *s)
 {
+    /* http://www.tokumaru.org/techterm/hash.html */
     int i;
     int long h;
     int L = strlen(s);
@@ -22,7 +19,7 @@ static long _Hash_Hash(char *s)
     return labs(h);
 }
 
-struct Hash *Hash_Create(void)
+struct Hash *Hash_Create(int hash_len)
 {
     struct Hash *new;
 
@@ -31,15 +28,17 @@ struct Hash *Hash_Create(void)
         return NULL;
     }
 
-    new->len = 0;
+    if (hash_len) {
+        new->len = hash_len;
+    } else {
+        new->len = _HASH_LEN_DEFAULT;
+    }
 
-    new->a = malloc(sizeof(struct Hash *) * _HASH_ARRAY_LEN);
+    new->a = malloc(sizeof(struct Hash *) * new->len);
     if (! new->a) {
         free(new);
         return NULL;
     }
-
-    new->keys = NULL;
 
     return new;
 }
@@ -57,7 +56,7 @@ void Hash_Destroy(struct Hash *hash)
     struct _HashData *current;
     struct _HashData *next;
 
-    for (i = 0; i < _HASH_ARRAY_LEN; i++) {
+    for (i = 0; i < hash->len; i++) {
         current = hash->a[i];
         while (current) {
             next = current->next;
@@ -76,7 +75,7 @@ void *Hash_GetData(struct Hash *hash, char *key)
     int num;
     struct _HashData *d;
 
-    num = _Hash_Hash(key) % _HASH_ARRAY_LEN;
+    num = _Hash_Hash(key) % hash->len;
 
     d = hash->a[num];
 
@@ -126,7 +125,7 @@ int Hash_PutData(struct Hash *hash, char *key, void *data)
 {
     int num;
 
-    num = _Hash_Hash(key) % _HASH_ARRAY_LEN;
+    num = _Hash_Hash(key) % hash->len;
 
     if (hash->a[num]) {
         struct _HashData *current;
@@ -171,7 +170,7 @@ void Hash_ForEach(struct Hash *hash,
     int i;
     struct _HashData *current;
 
-    for (i = 0; i < _HASH_ARRAY_LEN; i++) {
+    for (i = 0; i < hash->len; i++) {
         current = hash->a[i];
         while (current) {
             (*func)(current->key, current->data, arg);

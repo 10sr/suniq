@@ -11,22 +11,23 @@ struct _HashData {
 
 struct Hash {
     struct _HashData **a;
-    char **keys;
     int len;
 };
 
-/* Create new hash. Return NULL if fails. */
-struct Hash *Hash_Create(void);
+/* Create new hash. Return NULL if fails.
+ * hash_len is size of hash array.
+ */
+struct Hash *Hash_Create(int hash_len);
 
 void Hash_Destroy(struct Hash *hash);
 
 /* Get data of s. If none return NULL.
- * This hash cannot distinguish "no key" and "null value".
+ * So this hash cannot distinguish "no key" and "null value".
  */
 void *Hash_GetData(struct Hash *hash, char *key);
 
-/* Put data of key. Pointer data is used directly so you must care about
- * lifetime of referenced space.
+/* Put data of key. Data referenced by data is used without copying it so you
+ * must care about lifetimes of referenced spaces.
  * Keys are duplicated.
  * Return 0 if suceeded, non-zero otherwise.
  */

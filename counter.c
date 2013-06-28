@@ -10,7 +10,7 @@ struct Counter *Counter_Create(void)
     new = malloc(sizeof(struct Counter));
 
     if (new) {
-        new->hash = Hash_Create();
+        new->hash = Hash_Create(0);
 
         if (new->hash) {
             return new;
