@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<unistd.h>
+#include<getopt.h>
 
 #include"counter.h"
 
@@ -57,16 +59,56 @@ static int suniq(FILE *fp_input, char delim, int print_num)
     return 0;
 }
 
+void suniq_help(char* cmdname)
+{
+    fprintf(stderr, "%s: usage: %s [-h|--help] [-c|--count] [<filename>]",
+            cmdname, cmdname);
+    return;
+}
+
 int main(int argc, char** argv)
 {
+    char *cmdname = argv[0];
+    int option;
+    struct option long_options[] = {
+        {"help", no_argument, NULL, 'h'},
+        {"count", no_argument, NULL, 'c'},
+        {0, 0, 0, 0}
+    };
+
+#ifndef __CYGWIN__
+    extern char *optarg;
+    extern int optind, opterr;
+#endif
+
+    int f_count = 0;
+
     char *infile = "-";
     /* char *outfile = "-"; */
 
-    if (argc >= 2) {
-        /* printf("argc: %d, input: %s\n", argc, argv[1]); */
-        infile = argv[1];
+    while (1) {
+        option = getopt_long(argc, argv, "ch", long_options, NULL);
+        if (option == -1) {
+            break;
+        }
+
+        switch (option) {
+        case 'h':
+            suniq_help(cmdname);
+            return 0;
+        case 'c':
+            f_count = 1;
+            break;
+        }
+    }
+
+    argc -= optind;
+    argv += optind;
+
+    if (argc > 0) {
+        infile = argv[0];
         freopen(infile, "r", stdin);
     }
 
-    return suniq(stdin, '\n', 1);
+    return suniq(stdin, '\n', f_count);
 }
