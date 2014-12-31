@@ -3,3 +3,13 @@ test_hash
 test_counter
 suniq
 data.txt
+
+# autoconf files
+config.h
+config.log
+config.status
+configure
+configure.scan
+Makefile
+autoscan.log
+autom4te.cache/
