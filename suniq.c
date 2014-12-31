@@ -4,6 +4,7 @@
 #include<getopt.h>
 
 #include"counter.h"
+#include"config.h"
 
 const int BUF_LEN = 10000;
 

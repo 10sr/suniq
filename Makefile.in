@@ -1,0 +1,21 @@
+CC = @CC@
+CFLAGS = -O3 -g -Wall
+
+target = suniq
+tests = test_hash test_counter
+objs = suniq.o hash.o counter.o
+
+default : all
+
+test : $(tests)
+
+test_counter : counter.o hash.o test_counter.o
+
+test_hash : hash.o test_hash.o
+
+all : $(targets)
+
+suniq : $(objs)
+
+clean :
+	$(RM) $(targets) $(tests) $(objs)
