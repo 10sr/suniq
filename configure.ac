@@ -4,8 +4,8 @@
 AC_PREREQ([2.69])
 AC_INIT([suniq], [0.1], [8slashes+suniq@gmail.com])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([counter.c])
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_SRCDIR([src/counter.c])
+AC_CONFIG_HEADERS([src/config.h])
 
 # Checks for programs.
 AC_PROG_CC
@@ -20,5 +20,5 @@ AC_CHECK_HEADERS([stdint.h stdlib.h string.h unistd.h getopt.h stdio.h])
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
