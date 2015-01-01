@@ -4,8 +4,9 @@ test_counter
 suniq
 data.txt
 
-# autoconf files
+# automake/autoconf files
 config.h
+config.h.in
 config.log
 config.status
 configure
@@ -13,3 +14,9 @@ configure.scan
 Makefile
 autoscan.log
 autom4te.cache/
+Makefile.in
+aclocal.m4
+depcomp
+install-sh
+missing
+compile
