@@ -14,7 +14,7 @@ int test_hash(void)
 {
     struct Hash *h;
     int len;
-    h = Hash_Create();
+    h = Hash_Create(1000);
     if (! h) {
         fprintf(stderr, "%s: Cannot allocate memory", "test_hash");
         exit(1);
