@@ -1,0 +1,4 @@
+language: c
+script: make check
+notifications:
+  email: 8slashes+travis-ci@gmail.com
