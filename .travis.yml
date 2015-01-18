@@ -1,4 +1,7 @@
 language: c
+before_script:
+  - make autoreconf -iv
+  - ./configure
 script: make check
 notifications:
   email: 8slashes+travis-ci@gmail.com
