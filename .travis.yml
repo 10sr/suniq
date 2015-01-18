@@ -1,6 +1,6 @@
 language: c
 before_script:
-  - make autoreconf -iv
+  - autoreconf -iv
   - ./configure
 script: make check
 notifications:
